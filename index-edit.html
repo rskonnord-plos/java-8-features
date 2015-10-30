@@ -93,17 +93,18 @@
       </section>
       <section>
         <h3>Before</h3>
-        <pre><code class="java">public interface Doi {
+        <code class="java"><pre>public interface Doi {
 
   /**
    * @return a DOI name such as "10.1371/journal.pone.0000000"
    */
   String getDoiName();
 
-}</code></pre>
+}</pre>
+        </code>
 
         <h3>After</h3>
-        <pre><code class="java">public interface Doi {
+        <code class="java"><pre>public interface Doi {
 
   /**
    * @return a DOI name such as "10.1371/journal.pone.0000000"
@@ -114,7 +115,8 @@
     return URI.create("doi:" + getDoiName());
   }
 
-}</code></pre>
+}</pre>
+        </code>
       </section>
       <section>
         <p>Interfaces with <code>default</code> methods are similar to abstract classes. The differences are that
@@ -196,7 +198,7 @@
           has been part of the language since 1.0, and meets the definition of functional. It didn't need the <code>@FunctionalInterface</code>
           annotation to make it so.
         </p>
-        <pre><code class="java">package java.lang;
+        <code class="java"><pre>package java.lang;
 
 /**
  * The &lt;code>Runnable&lt;/code> interface should be implemented by any
@@ -213,7 +215,8 @@ public interface Runnable {
    */
   public abstract void run();
 
-}</code></pre>
+}</pre>
+        </code>
       </section>
       <section>
         <p>Some of us have already implemented
@@ -221,7 +224,8 @@ public interface Runnable {
             <code>HibernateCallback</code>,
           </a>
           a functional interface from Spring, many times.</p>
-        <pre><code class="java">package org.springframework.orm.hibernate3;
+        <code class="java">
+          <pre>package org.springframework.orm.hibernate3;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import java.sql.SQLException;
@@ -229,7 +233,8 @@ import java.sql.SQLException;
 public interface HibernateCallback&lt;T&gt; {
   T doInHibernate(Session session)
       throws HibernateException, SQLException;
-}</code></pre>
+}</pre>
+        </code>
       </section>
       <section>
         <p>
@@ -238,7 +243,7 @@ public interface HibernateCallback&lt;T&gt; {
             some very flexible new ones.
           </a>
         </p>
-        <pre><code class="java">@FunctionalInterface public interface Predicate&lt;T> {
+        <code class="java"><pre>@FunctionalInterface public interface Predicate&lt;T> {
   boolean test(T t);
 }
 
@@ -253,14 +258,15 @@ public interface HibernateCallback&lt;T&gt; {
 @FunctionalInterface public interface Supplier&lt;T> {
   T get();
 }
-</code></pre>
+</pre>
+        </code>
       </section>
     </section>
 
     <section>
       <section>
         <h2>Lambda syntax</h2>
-        <pre><code class="java">@FunctionalInterface
+        <code class="java"><pre>@FunctionalInterface
 public interface Consumer&lt;T&gt; {
   void accept(T t);
 
@@ -270,11 +276,13 @@ public interface Consumer&lt;T&gt; {
       System.out.println(trimmed);
     };
   }
-}</code></pre>
+}</pre>
+        </code>
       </section>
       <section>
         <p>You can return things.</p>
-        <pre><code class="java">@FunctionalInterface
+        <code class="java">
+        <pre>@FunctionalInterface
 public interface Predicate&lt;T> {
   boolean test(T t);
 
@@ -284,11 +292,13 @@ public interface Predicate&lt;T> {
       return (modulus == 0);
     };
   }
-}</code></pre></section>
+}</pre>
+        </code></section>
       <section>
         <p>If it is a single return statement, you can leave off the braces and write only the returned
           expression.</p>
-        <pre><code class="java">@FunctionalInterface public interface Predicate&lt;T> {
+        <code class="java">
+          <pre>@FunctionalInterface public interface Predicate&lt;T> {
   boolean test(T t);
 
   public static void main(String[] args) {
@@ -296,91 +306,110 @@ public interface Predicate&lt;T> {
       return (n % 2 == 0);
     };
   }
-}</code></pre>
+}</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">@FunctionalInterface public interface Predicate&lt;T> {
+        <code class="java">
+          <pre>@FunctionalInterface public interface Predicate&lt;T> {
   boolean test(T t);
 
   public static void main(String[] args) {
     Predicate&lt;Integer> isEven = (Integer n) -> (n % 2 == 0);
   }
-}</code></pre>
+}</pre>
+        </code>
       </section>
       <section>
         <p>If the argument type can be inferred, you can leave it off.</p>
-        <pre><code class="java">@FunctionalInterface public interface Predicate&lt;T> {
+        <code class="java">
+          <pre>@FunctionalInterface public interface Predicate&lt;T> {
   boolean test(T t);
 
   public static void main(String[] args) {
     Predicate&lt;Integer> isEven = (Integer n) -> (n % 2 == 0);
   }
-}</code></pre>
+}</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">@FunctionalInterface public interface Predicate&lt;T> {
+        <code class="java">
+          <pre>@FunctionalInterface public interface Predicate&lt;T> {
   boolean test(T t);
 
   public static void main(String[] args) {
     Predicate&lt;Integer> isEven = n -> (n % 2 == 0);
   }
-}</code></pre>
+}</pre>
+        </code>
       </section>
       <section>
         <p>If it uses only a single method call, you can make it even terser with <strong>method reference</strong>
           syntax.</p>
-        <pre><code class="java">@FunctionalInterface public interface Function&lt;T, R> {
+        <code class="java">
+          <pre>@FunctionalInterface public interface Function&lt;T, R> {
   R apply(T t);
 
   public static void main(String[] args) {
     Function&lt;String, Integer> getLength = s -> s.length();
   }
-}</code></pre>
+}</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">@FunctionalInterface public interface Function&lt;T, R> {
+        <code class="java">
+        <pre>@FunctionalInterface public interface Function&lt;T, R> {
   R apply(T t);
 
   public static void main(String[] args) {
     Function&lt;String, Integer> getLength = String::length;
   }
-}</code></pre></section>
+}</pre>
+        </code></section>
       <section>
         <p>You can even use a method reference on a particular <em>instance</em>.</p>
-        <pre><code class="java">@FunctionalInterface public interface Supplier&lt;T> {
+        <code class="java">
+        <pre>@FunctionalInterface public interface Supplier&lt;T> {
   T get();
 
   public static void main(String[] args) {
     String theValue = "resonance cascade";
     Supplier&lt;Integer> getValueLength = () -> theValue.length();
   }
-}</code></pre>
+}</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">@FunctionalInterface public interface Supplier&lt;T> {
+        <code class="java">
+        <pre>@FunctionalInterface public interface Supplier&lt;T> {
   T get();
 
   public static void main(String[] args) {
     String theValue = "resonance cascade";
     Supplier&lt;Integer> getValueLength = theValue::length;
   }
-}</code></pre>
+}</pre>
+        </code>
       </section>
       <section>
         <p>Lambdas can be inlined.</p>
 
         <p>This is usually good style (but, as always, break things apart when they need to be clearer).</p>
-        <pre><code class="java">  List&lt;ArticleIdentity> getIdentities(List&lt;Article> articles) {
+        <code class="java">
+        <pre>  List&lt;ArticleIdentity> getIdentities(List&lt;Article> articles) {
     Function&lt;Article, ArticleIdentity> extractId =
           article -> ArticleIdentity.create(article.getDoi());
     return Lists.transform(articles, extractId);
-  }</code></pre>
+  }</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">  List&lt;ArticleIdentity> getIdentities(List&lt;Article> articles) {
+        <code class="java">
+        <pre>  List&lt;ArticleIdentity> getIdentities(List&lt;Article> articles) {
     return Lists.transform(articles,
         article -> ArticleIdentity.create(article.getDoi()));
-  }</code></pre>
+  }</pre>
+        </code>
       </section>
       <section>
         <p>Your IDE is your best friend while learning new syntax.</p>
@@ -397,7 +426,7 @@ public interface Predicate&lt;T> {
       </section>
 
       <section>
-        <pre><code class="java">  List&lt;String> getDois(List&lt;Article> articles) {
+        <code class="java"><pre>  List&lt;String> getDois(List&lt;Article> articles) {
     return Lists.transform(articles,
         new Function&lt;Article, String>() {
           @Override
@@ -405,17 +434,20 @@ public interface Predicate&lt;T> {
             return article.getDoi();
           }
         });
-  }</code></pre>
+  }</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">  List&lt;String> getDois(List&lt;Article> articles) {
+        <code class="java"><pre>  List&lt;String> getDois(List&lt;Article> articles) {
     return Lists.transform(articles, article -> article.getDoi());
-  }</code></pre>
+  }</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">  List&lt;String> getDois(List&lt;Article> articles) {
+        <code class="java"><pre>  List&lt;String> getDois(List&lt;Article> articles) {
     return Lists.transform(articles, Article::getDoi);
-  }</code></pre>
+  }</pre>
+        </code>
       </section>
 
     </section>
@@ -430,7 +462,8 @@ public interface Predicate&lt;T> {
         </p>
       </section>
       <section>
-        <pre><code class="java">public class NaiveService {
+        <code class="java">
+        <pre>public class NaiveService {
   private final DataSource dataSource;
 
   /**
@@ -454,9 +487,11 @@ public class IncompetentClient {
     model.addAttribute("data", data);
     return model; // ...oops, forget something?
   }
-}</code></pre></section>
+}</pre>
+        </code></section>
       <section>
-        <pre><code class="java">public class CynicalService {
+        <code class="java">
+        <pre>public class CynicalService {
   private final DataSource dataSource;
 
   public void getResource(String resourceName,
@@ -478,7 +513,8 @@ public class IncompetentClient {
     });
     return model;
   }
-}</code></pre></section>
+}</pre>
+        </code></section>
     </section>
 
     <section>
@@ -553,22 +589,24 @@ public class IncompetentClient {
 
       <section>
         <p>The simplest is <code>ifPresent</code>, which takes the <code>if</code> body as a <code>Consumer</code>.</p>
-        <pre><code class="java">  private final Optional&lt;Issue> currentIssue;
+        <code class="java"><pre>  private final Optional&lt;Issue> currentIssue;
 
   public void addTo(Volume volume) {
     if (currentIssue.isPresent()) {
       volume.getIssues().add(currentIssue.get());
     }
-  }</code></pre>
+  }</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">  private final Optional&lt;Issue> currentIssue;
+        <code class="java"><pre>  private final Optional&lt;Issue> currentIssue;
 
   public void addTo(Volume volume) {
     currentIssue.ifPresent(issue -> {
       volume.getIssues().add(issue);
     });
-  }</code></pre>
+  }</pre>
+        </code>
 
       </section>
 
@@ -576,42 +614,48 @@ public class IncompetentClient {
         <p>
           <code>orElse</code> provides a default value.
         </p>
-        <pre><code class="java">  private final Issue defaultIssue;
+        <code class="java"><pre>  private final Issue defaultIssue;
   private final Optional&lt;Issue> currentIssue;
 
   public void addTo(Volume volume) {
     volume.getIssues().add(
         currentIssue.isPresent() ? currentIssue.get() : defaultIssue);
-  }</code></pre>
+  }</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">  private final Issue defaultIssue;
+        <code class="java"><pre>  private final Issue defaultIssue;
   private final Optional&lt;Issue> currentIssue;
 
   public void addTo(Volume volume) {
     volume.getIssues().add(currentIssue.orElse(defaultIssue));
-  }</code></pre>
+  }</pre>
+        </code>
       </section>
 
       <section>
         <p>
           What if getting the default value is expensive?<br/>Use lazy evaluation with a <code>Supplier</code>!
         </p>
-        <pre><code class="java">  private final Optional&lt;Issue> currentIssue;
+        <code class="java">
+          <pre>  private final Optional&lt;Issue> currentIssue;
 
   public void addTo(Volume volume) {
     Issue next = currentIssue.isPresent() ? currentIssue.get()
         : fetchDefaultIssue();
     volume.getIssues().add(next);
-  }</code></pre>
+  }</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">  private final Optional&lt;Issue> currentIssue;
+        <code class="java">
+          <pre>  private final Optional&lt;Issue> currentIssue;
 
   public void addTo(Volume volume) {
     Issue next = currentIssue.orElseGet(() -> fetchDefaultIssue());
     volume.getIssues().add(next);
-  }</code></pre>
+  }</pre>
+        </code>
       </section>
 
       <section>
@@ -619,19 +663,21 @@ public class IncompetentClient {
           <code>orElseThrow</code> takes an <em>exception supplier</em>. This is the best way to indicate that you
           expect a value to be present. It is clearer than relying on <code>get()</code>'s exception.
         </p>
-        <pre><code class="java">  String unpackName(Optional&lt;String> name) {
+        <code class="java"><pre>  String unpackName(Optional&lt;String> name) {
     if (name.isPresent()) {
       return name.get();
     } else {
       throw new IllegalArgumentException("Name must be present");
     }
-  }</code></pre>
+  }</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">  String unpackName(Optional&lt;String> name) {
+        <code class="java"><pre>  String unpackName(Optional&lt;String> name) {
     return name.orElseThrow(() ->
         new IllegalArgumentException("Name must be present"));
-  }</code></pre>
+  }</pre>
+        </code>
       </section>
 
       <section>
@@ -639,38 +685,42 @@ public class IncompetentClient {
           Use <code>map</code> to apply an operation to an <code>Optional</code> object's value, leaving it empty if it
           is empty.
         </p>
-        <pre><code class="java">  Optional&lt;String> makeAttribution(Optional&lt;String> name) {
+        <code class="java"><pre>  Optional&lt;String> makeAttribution(Optional&lt;String> name) {
     return name.isPresent()
         ? Optional.of("By: " + name.get())
         : Optional.empty();
-  }</code></pre>
+  }</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">  Optional&lt;String> makeAttribution(Optional&lt;String> name) {
+        <code class="java"><pre>  Optional&lt;String> makeAttribution(Optional&lt;String> name) {
     return name.map(nameValue -> "By: " + nameValue);
-  }</code></pre>
+  }</pre>
+        </code>
       </section>
 
       <section>
         <p><code>map</code> and <code>orElse</code> chain nicely.</p>
-        <pre><code class="java">  String makeAttribution(Optional&lt;String> name) {
+        <code class="java"><pre>  String makeAttribution(Optional&lt;String> name) {
     return name.isPresent()
         ? "By: " + name.get()
         : "(anonymous)";
-  }</code></pre>
+  }</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">  String makeAttribution(Optional&lt;String> name) {
+        <code class="java"><pre>  String makeAttribution(Optional&lt;String> name) {
     return name.map(nameValue -> "By: " + nameValue)
         .orElse("(anonymous)");
-  }</code></pre>
+  }</pre>
+        </code>
       </section>
 
       <section>
         <p>
           Use <code>filter</code> to apply a condition.
         </p>
-        <pre><code class="java">  private final Optional&lt;Issue> currentIssue;
+        <code class="java"><pre>  private final Optional&lt;Issue> currentIssue;
 
   Optional&lt;Issue> getCurrentImageIssue() {
     if (currentIssue.isPresent()) {
@@ -679,35 +729,39 @@ public class IncompetentClient {
     } else {
       return Optional.empty();
     }
-  }</code></pre>
+  }</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">  private final Optional&lt;Issue> currentIssue;
+        <code class="java"><pre>  private final Optional&lt;Issue> currentIssue;
 
   Optional&lt;Issue> getCurrentImageIssue() {
     return currentIssue.filter(issue -> issue.getImageUri() != null);
-  }</code></pre>
+  }</pre>
+        </code>
       </section>
 
       <section>
         <p>
           Use <code>flatMap</code> to capture conditional logic by mapping onto another <code>Optional</code>.
         </p>
-        <pre><code class="java">  private final Optional&lt;Issue> currentIssue;
+        <code class="java"><pre>  private final Optional&lt;Issue> currentIssue;
 
   Optional&lt;String> getCurrentImageUri() {
     return currentIssue.isPresent()
         ? Optional.ofNullable(currentIssue.get().getImageUri())
         : Optional.empty();
-  }</code></pre>
+  }</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">  private final Optional&lt;Issue> currentIssue;
+        <code class="java"><pre>  private final Optional&lt;Issue> currentIssue;
 
   Optional&lt;String> getCurrentImageUri() {
     return currentIssue.flatMap(image ->
         Optional.ofNullable(currentIssue.get().getImageUri()));
-  }</code></pre>
+  }</pre>
+        </code>
       </section>
 
     </section>
@@ -724,23 +778,25 @@ public class IncompetentClient {
       </section>
 
       <section>
-        <pre><code class="java">  private final Map&lt;Category, Double> weights;
+        <code class="java"><pre>  private final Map&lt;Category, Double> weights;
 
   public double lookUpWeight(Category category) {
     return weights.containsKey(category) ?
         weights.get(category) : 0.0;
-  }</code></pre>
+  }</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">  private final Map&lt;Category, Double> weights;
+        <code class="java"><pre>  private final Map&lt;Category, Double> weights;
 
   public double lookUpWeight(Category category) {
     return weights.getOrDefault(category, 0.0);
-  }</code></pre>
+  }</pre>
+        </code>
       </section>
 
       <section>
-        <pre><code class="java">  private final CategoryService categoryService;
+        <code class="java"><pre>  private final CategoryService categoryService;
   private final Map&lt;Category, Double> memo;
 
   public double getWeight(Category category) {
@@ -750,16 +806,18 @@ public class IncompetentClient {
     double weight = categoryService.lookUpWeight(category);
     memo.put(category, weight);
     return weight;
-  }</code></pre>
+  }</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">  private final CategoryService categoryService;
+        <code class="java"><pre>  private final CategoryService categoryService;
   private final Map&lt;Category, Double> memo;
 
   public double getWeight(Category category) {
     return memo.computeIfAbsent(category,
         categoryService::lookUpWeight);
-  }</code></pre>
+  }</pre>
+        </code>
       </section>
 
     </section>
@@ -772,20 +830,22 @@ public class IncompetentClient {
         </a>
         Utilities
       </h2>
-      <pre><code class="java">  Comparator&lt;ArticlePerson> personOrder =
+      <code class="java"><pre>  Comparator&lt;ArticlePerson> personOrder =
       (ArticlePerson o1, ArticlePerson o2) -> {
         int cmp = o1.getSurnames().compareTo(o2.getSurnames());
         if (cmp != 0) return cmp;
         cmp = o1.getGivenNames().compareTo(o2.getGivenNames());
         if (cmp != 0) return cmp;
         return o1.getSuffix().compareTo(o2.getSuffix());
-      };</code></pre>
+      };</pre>
+      </code>
 
       <div class="example-arrow">&downarrow;</div>
-      <pre><code class="java">  Comparator&lt;ArticlePerson> personOrder =
+      <code class="java"><pre>  Comparator&lt;ArticlePerson> personOrder =
       Comparator.comparing(ArticlePerson::getSurnames)
           .thenComparing(ArticlePerson::getGivenNames)
-          .thenComparing(ArticlePerson::getSuffix);</code></pre>
+          .thenComparing(ArticlePerson::getSuffix);</pre>
+      </code>
     </section>
 
     <section>
@@ -858,16 +918,18 @@ public class IncompetentClient {
       <section><h2>Stream examples</h2></section>
 
       <section>
-        <pre><code class="java">  void printAll(Collection&lt;String> values) {
+        <code class="java"><pre>  void printAll(Collection&lt;String> values) {
     for (String value : values) {
       System.out.println(value);
     }
-  }</code></pre>
+  }</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">  void printAll(Collection&lt;String> values) {
+        <code class="java"><pre>  void printAll(Collection&lt;String> values) {
     values.stream().forEach(System.out::println);
-  }</code></pre>
+  }</pre>
+        </code>
 
         <p>
           <code>forEach</code> is a terminal operation. In an intermediate operation, the side effect would be wrong.
@@ -881,25 +943,27 @@ public class IncompetentClient {
 
       <section>
         <h3>Transforming</h3>
-        <pre><code class="java">  List&lt;ArticleView> createViews(Collection&lt;Article> articles) {
+        <code class="java"><pre>  List&lt;ArticleView> createViews(Collection&lt;Article> articles) {
     List&lt;ArticleOutputView> views = new ArrayList&lt;>();
     for (Article article : articles) {
       views.add(new ArticleOutputView(article));
     }
     return views;
-  }</code></pre>
+  }</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">  List&lt;ArticleOutputView> createViews(Collection&lt;Article> articles) {
+        <code class="java"><pre>  List&lt;ArticleOutputView> createViews(Collection&lt;Article> articles) {
     return articles.stream()
         .map(ArticleOutputView::new)
         .collect(Collectors.toList());
-  }</code></pre>
+  }</pre>
+        </code>
       </section>
 
       <section>
         <h3>Filtering</h3>
-        <pre><code class="java">  List&lt;Article> getResearchArticles(Collection&lt;Article> articles) {
+        <code class="java"><pre>  List&lt;Article> getResearchArticles(Collection&lt;Article> articles) {
     List&lt;Article> researchArticles = new ArrayList&lt;>();
     for (Article article : articles) {
       if (article.getTypes().contains("research-article")) {
@@ -907,20 +971,22 @@ public class IncompetentClient {
       }
     }
     return researchArticles;
-  }</code></pre>
+  }</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">  List&lt;Article> getResearchArticles(Collection&lt;Article> articles) {
+        <code class="java"><pre>  List&lt;Article> getResearchArticles(Collection&lt;Article> articles) {
     return articles.stream()
         .filter(article ->
             article.getTypes().contains("research-article"))
         .collect(Collectors.toList());
-  }</code></pre>
+  }</pre>
+        </code>
       </section>
 
       <section>
         <p>We can chain operations together.</p>
-        <pre><code class="java">  List&lt;ArticleView> getResearchViews(Collection&lt;Article> articles) {
+        <code class="java"><pre>  List&lt;ArticleView> getResearchViews(Collection&lt;Article> articles) {
     List&lt;ArticleView> researchArticleViews = new ArrayList&lt;>();
     for (Article article : articles) {
       if (article.getTypes().contains("research-article")) {
@@ -929,16 +995,18 @@ public class IncompetentClient {
       }
     }
     return researchArticleViews;
-  }</code></pre>
+  }</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">  List&lt;ArticleView> getResearchViews(Collection&lt;Article> articles) {
+        <code class="java"><pre>  List&lt;ArticleView> getResearchViews(Collection&lt;Article> articles) {
     return articles.stream()
         .filter(article ->
             article.getTypes().contains("research-article"))
         .map(ArticleView::new)
         .collect(Collectors.toList());
-  }</code></pre>
+  }</pre>
+        </code>
       </section>
 
       <section>
@@ -946,7 +1014,7 @@ public class IncompetentClient {
           <code>flatMap</code> can change the number of elements in a stream. It transforms each element into a new
           mini-stream.
         </p>
-        <pre><code class="java">  List&lt;ArticleAuthor> getAllAuthors(Collection&lt;Article> articles) {
+        <code class="java"><pre>  List&lt;ArticleAuthor> getAllAuthors(Collection&lt;Article> articles) {
     List&lt;ArticleAuthor> authors = new ArrayList&lt;>();
     for (Article article : articles) {
       for (ArticleAuthor author : article.getAuthors()) {
@@ -954,18 +1022,20 @@ public class IncompetentClient {
       }
     }
     return authors;
-  }</code></pre>
+  }</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">  List&lt;ArticleAuthor> getAllAuthors(Collection&lt;Article> articles) {
+        <code class="java"><pre>  List&lt;ArticleAuthor> getAllAuthors(Collection&lt;Article> articles) {
     return articles.stream()
         .flatMap(article -> article.getAuthors().stream())
         .collect(Collectors.toList());
-  }</code></pre>
+  }</pre>
+        </code>
       </section>
 
       <section>
-        <pre><code class="java">  private boolean isFamousEnough(ArticleAuthor author) {...}
+        <code class="java"><pre>  private boolean isFamousEnough(ArticleAuthor author) {...}
 
   List&lt;ArticleAuthor> getFamousAuthors(Collection&lt;Article> articles) {
     Set&lt;ArticleAuthor> famousAuthors = new HashSet&lt;>();
@@ -981,10 +1051,11 @@ public class IncompetentClient {
     List&lt;ArticleAuthor> sorted = new ArrayList&lt;>(famousAuthors);
     sorted.sort(Comparator.comparing(ArticleAuthor::getSurnames));
     return sorted;
-  }</code></pre>
+  }</pre>
+        </code>
       </section>
       <section>
-        <pre><code class="java">  private boolean isFamousEnough(ArticleAuthor author) {...}
+        <code class="java"><pre>  private boolean isFamousEnough(ArticleAuthor author) {...}
 
   List&lt;ArticleAuthor> getFamousAuthors(Collection&lt;Article> articles) {
     return articles.stream()
@@ -996,7 +1067,8 @@ public class IncompetentClient {
         .filter(this::isFamousEnough)
         .sorted(Comparator.comparing(ArticleAuthor::getSurnames))
         .collect(Collectors.toList());
-  }</code></pre>
+  }</pre>
+        </code>
       </section>
     </section>
 
@@ -1006,83 +1078,92 @@ public class IncompetentClient {
       </section>
 
       <section>
-        <pre><code class="java">  int computeSum(Collection&lt;Integer> numbers) {
+        <code class="java"><pre>  int computeSum(Collection&lt;Integer> numbers) {
     int sum = 0;
     for (Integer number : numbers) {
       sum += number;
     }
     return sum;
-  }</code></pre>
+  }</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">  int computeSum(Collection&lt;Integer> numbers) {
+        <code class="java"><pre>  int computeSum(Collection&lt;Integer> numbers) {
     IntStream intStream = numbers.stream().mapToInt(Integer::intValue);
     return intStream.sum();
-  }</code></pre>
+  }</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">  int computeSum(Collection&lt;Integer> numbers) {
+        <code class="java"><pre>  int computeSum(Collection&lt;Integer> numbers) {
     return numbers.stream().mapToInt(Integer::intValue).sum();
-  }</code></pre>
+  }</pre>
+        </code>
       </section>
 
       <section>
         <p>Define your own reductions!</p>
-        <pre><code class="java">  int computeProduct(Collection&lt;Integer> numbers) {
+        <code class="java"><pre>  int computeProduct(Collection&lt;Integer> numbers) {
     int product = 1;
     for (Integer number : numbers) {
       product *= number;
     }
     return product;
-  }</code></pre>
+  }</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">  int computeProduct(Collection&lt;Integer> numbers) {
+        <code class="java"><pre>  int computeProduct(Collection&lt;Integer> numbers) {
     return numbers.stream().mapToInt(Integer::intValue)
         .reduce(1, (x, y) -> x * y);
-  }</code></pre>
+  }</pre>
+        </code>
       </section>
 
       <section>
-        <pre><code class="java">  Article findCorrection(Collection&lt;Article> articles) {
+        <code class="java"><pre>  Article findCorrection(Collection&lt;Article> articles) {
     for (Article article : articles) {
       if (article.getTypes().contains("correction")) {
         return article;
       }
     }
     throw new IllegalArgumentException("Correction not found");
-  }</code></pre>
+  }</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">  Article findCorrection(Collection&lt;Article> articles) {
+        <code class="java"><pre>  Article findCorrection(Collection&lt;Article> articles) {
     Optional&lt;Article> correction = articles.stream()
         .filter(article ->
             article.getTypes().contains("correction"))
         .findAny();
     return correction.orElseThrow(() ->
         new IllegalArgumentException("Correction not found"));
-  }</code></pre>
+  }</pre>
+        </code>
       </section>
 
       <section>
         <p><code>Stream</code> and <code>Optional</code> chain together very naturally.</p>
-        <pre><code class="java">  Article findCorrection(Collection&lt;Article> articles) {
+        <code class="java"><pre>  Article findCorrection(Collection&lt;Article> articles) {
     for (Article article : articles) {
       if (article.getTypes().contains("correction")) {
         return article;
       }
     }
     throw new IllegalArgumentException("Correction not found");
-  }</code></pre>
+  }</pre>
+        </code>
 
         <div class="example-arrow">&downarrow;</div>
-        <pre><code class="java">  Article findCorrection(Collection&lt;Article> articles) {
+        <code class="java"><pre>  Article findCorrection(Collection&lt;Article> articles) {
     return articles.stream()
         .filter(article ->
             article.getTypes().contains("correction"))
         .findAny().orElseThrow(() ->
             new IllegalArgumentException("Correction not found"));
-  }</code></pre>
+  }</pre>
+        </code>
       </section>
     </section>
 
@@ -1148,4 +1229,3 @@ public class IncompetentClient {
 
 </body>
 </html>
-
